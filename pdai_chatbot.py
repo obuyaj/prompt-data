@@ -20,7 +20,7 @@ if "messages" not in st.session_state:
 # create PandasAI object, passing the LLM
 
 if api_key:
-    llm = OpenAI(api_token=api_key, model="gpt-4o-mini", temperature=0.2)
+    llm = OpenAI(api_token=api_key, model="gpt-3.5-turbo", temperature=0.2)
     
     if uploaded_file is not None:
         df = pd.read_csv(uploaded_file)
