@@ -73,5 +73,4 @@ if api_key:
             for message in st.session_state.messages:
                 st.chat_message(message["role"])
                 st.markdown(message["content"])
-else:
-    st.warning("Please enter your OpenAI API key and press Enter to continue.")
+
