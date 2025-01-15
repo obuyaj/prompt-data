@@ -3,5 +3,4 @@ pandas
 pandasai
 numpy
 pyyaml
-PIL
-requests
+
