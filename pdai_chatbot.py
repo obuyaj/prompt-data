@@ -1,11 +1,11 @@
 import streamlit as st
 import pandas as pd
 import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from pandasai.llm import OpenAI
 from pandasai import Agent, SmartDataframe
-
-matplotlib.use("Agg")
+import io
 
 st.title("Prompt and get insights from your Data")
 
@@ -13,15 +13,14 @@ uploaded_file = st.file_uploader("Upload a CSV file for analysis", type=['csv'])
 
 api_key = st.text_input("Your OpenAI API Key:", type="password")
 
-
-# create an LLM by instantiating OpenAI object, and passing API token
+# Create an LLM by instantiating OpenAI object, and passing API token
 llm = OpenAI(api_token=api_key)
 
 # Initialize session state for storing the messages
 if "messages" not in st.session_state:
     st.session_state.messages = []
-    
-# create PandasAI object, passing the LLM
+
+# Create PandasAI object, passing the LLM
 if api_key:
     llm = OpenAI(api_token=api_key, model="gpt-3.5-turbo", temperature=0.2)
     
@@ -33,8 +32,7 @@ if api_key:
                               \nDescribe the data? 
                               \nWhat could be happening in 'column_name'?
                               """)    
-           
-        
+
         # Generate output
         if st.button("Generate"):
             if prompt:
@@ -43,10 +41,23 @@ if api_key:
                         sdf = SmartDataframe(df, config={"llm": llm, "conversational": True})
                         response = sdf.chat(prompt)
                         st.session_state.messages.append({"role":"user", "content": prompt})
-                        if 'image_url' in response: 
-                            st.session_state.messages.append({"role":"assistant", "content":  st.image(response['image_url'], caption="Generated Image")})
-                        else: 
-                            st.session_state.messages.append({"role":"assistant", "content": response})
+                        
+                        # Placeholder for image URL if generated
+                        image_url = '/mount/src/prompt-data/exports/charts/temp_chart.png'  # Use the generated image URL
+                        
+                        st.image(image_url, caption="Generated Image")
+                        
+                        # Create an in-memory file for download
+                        img_data = io.BytesIO()
+                        plt.savefig(img_data, format='png')
+                        img_data.seek(0)
+                        
+                        st.download_button(
+                            label="Download image",
+                            data=img_data,
+                            file_name="generated_image.png",
+                            mime="image/png"
+                        )
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
             else:
