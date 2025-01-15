@@ -46,7 +46,7 @@ if api_key:
                         response = sdf.chat(prompt)
                         st.session_state.messages.append({"role":"user", "content": prompt})
                         if st.session_state.image_url: 
-                            st.session_state.image_url.append({"role":"assistant", "content":  st.image(image_url, caption="Generated Image")})
+                            st.session_state.image_url.append({"role":"assistant", "content":  st.image(st.session_state.image_url, caption="Generated Image")})
                           #  image_url = response['image_url'] st.image(image_url, caption="Generated Image") 
                         else: 
                             st.session_state.messages.append({"role":"assistant", "content": response})
