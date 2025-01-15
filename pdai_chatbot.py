@@ -42,10 +42,11 @@ if api_key:
                         response = sdf.chat(prompt)
                         st.session_state.messages.append({"role":"user", "content": prompt})
                         
-                        # Check if the response contains an image URL
-                        if isinstance(response, dict) and 'image_url' in response:
-                            image_url = response['image_url']
-                            st.image(image_url, caption="Generated Image")
+                        # Check if the response contains the specific image URL
+                        image_path = '/mount/src/prompt-data/exports/charts/temp_chart.png'
+                        
+                        if image_path in response:
+                            st.image(image_path, caption="Generated Image")
                             
                             # Create an in-memory file for download
                             img_data = io.BytesIO()
