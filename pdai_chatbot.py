@@ -1,12 +1,12 @@
-import streamlit as st, pandas as pd
+import streamlit as st
+import pandas as pd
 import matplotlib as plt
-from tkinter import Tk
 from pandasai.llm import OpenAI
 from pandasai import Agent, SmartDataframe
 
 plt.use("TkAgg")
 
-st.title("Prompt and get insights from you Data")
+st.title("Prompt and get insights from your Data")
 
 uploaded_file = st.file_uploader("Upload a CSV file for analysis", type=['csv'])
 
@@ -16,16 +16,11 @@ api_key = st.text_input("Your OpenAI API Key:", type="password")
 # create an LLM by instantiating OpenAI object, and passing API token
 llm = OpenAI(api_token=api_key)
 
-# Initialize session state for storing the generated image URL
-if 'image_url' not in st.session_state:
-    st.session_state['image_url'] = []
-
 # Initialize session state for storing the messages
 if "messages" not in st.session_state:
     st.session_state.messages = []
     
 # create PandasAI object, passing the LLM
-
 if api_key:
     llm = OpenAI(api_token=api_key, model="gpt-3.5-turbo", temperature=0.2)
     
@@ -47,12 +42,10 @@ if api_key:
                         sdf = SmartDataframe(df, config={"llm": llm, "conversational": True})
                         response = sdf.chat(prompt)
                         st.session_state.messages.append({"role":"user", "content": prompt})
-                        if st.session_state.image_url: 
-                            st.session_state.image_url.append({"role":"assistant", "content":  st.image(st.session_state.image_url, caption="Generated Image")})
-                          #  image_url = response['image_url'] st.image(image_url, caption="Generated Image") 
+                        if 'image_url' in response: 
+                            st.session_state.messages.append({"role":"assistant", "content":  st.image(response['image_url'], caption="Generated Image")})
                         else: 
                             st.session_state.messages.append({"role":"assistant", "content": response})
-                     #   st.write(response)
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
             else:
@@ -63,8 +56,3 @@ if api_key:
                 st.markdown(message["content"])
 else:
     st.warning("Please enter your OpenAI API key and press Enter to continue.")
- 
-                
-            
-
-
