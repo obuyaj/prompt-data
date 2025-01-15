@@ -32,13 +32,16 @@ if api_key:
                               \nDescribe the data? 
                               \nWhat could be happening in 'column_name'?
                               """)    
+        template = """You’re a skilled and helpful data professional that answers questions as accurately as possible, with evidence  and references  from the                         existing dataset. The question is:  
+        """
+        prompt = template + prompt
 
         # Generate output
         if st.button("Generate"):
             if prompt:
                 try:
                     with st.spinner("Generating response, please wait..."):
-                        sdf = SmartDataframe(df, config={"llm": llm, "conversational": True})
+                        sdf = Agent(df, config={"llm": llm, "conversational": True})
                         response = sdf.chat(prompt)
                         st.session_state.messages.append({"role":"user", "content": prompt})
                         
