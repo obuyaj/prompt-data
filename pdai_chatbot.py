@@ -1,4 +1,6 @@
 import streamlit as st, pandas as pd
+import requests
+from PIL import Image
 from pandasai.llm import OpenAI
 from pandasai import Agent, SmartDataframe
 
@@ -14,6 +16,11 @@ api_key = st.text_input("Your OpenAI API Key:", type="password")
 # create an LLM by instantiating OpenAI object, and passing API token
 llm = OpenAI(api_token=api_key)
 
+# Initialize session state for storing the generated image URL
+if 'image_url' not in st.session_state:
+    st.session_state['image_url'] = None
+
+# Initialize session state for storing the messages
 if "messages" not in st.session_state:
     st.session_state.messages = []
     
@@ -41,7 +48,7 @@ if api_key:
                         response = sdf.chat(prompt)
                         st.session_state.messages.append({"role":"user", "content": prompt})
                         if 'image_url' in response: 
-                            st.session_state.messages.append({"role":"assistant", "content":  st.image(image_url, caption="Generated Image")})
+                            st.session_state.image_url.append({"role":"assistant", "content":  st.image(image_url, caption="Generated Image")})
                           #  image_url = response['image_url'] st.image(image_url, caption="Generated Image") 
                         else: 
                             st.session_state.messages.append({"role":"assistant", "content": response})
