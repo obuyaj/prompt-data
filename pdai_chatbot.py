@@ -18,7 +18,7 @@ llm = OpenAI(api_token=api_key)
 
 # Initialize session state for storing the generated image URL
 if 'image_url' not in st.session_state:
-    st.session_state['image_url'] = None
+    st.session_state['image_url'] = []
 
 # Initialize session state for storing the messages
 if "messages" not in st.session_state:
