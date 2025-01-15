@@ -1,5 +1,6 @@
 import streamlit as st, pandas as pd
 import matplotlib as plt
+from tkinter import Tk
 from pandasai.llm import OpenAI
 from pandasai import Agent, SmartDataframe
 
