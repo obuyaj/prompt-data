@@ -40,6 +40,11 @@ if api_key:
                         sdf = SmartDataframe(df, config={"llm": llm, "conversational": True})
                         response = sdf.chat(prompt)
                         st.session_state.messages.append({"role":"user", "content": prompt})
+                        if 'image_url' in response: 
+                            st.session_state.messages.append({"role":"assistant", "content":  st.image(image_url, caption="Generated Image")})
+                          #  image_url = response['image_url'] st.image(image_url, caption="Generated Image") 
+                        else: 
+                            st.write(response['text'])
                         st.session_state.messages.append({"role":"assistant", "content": response})
                      #   st.write(response)
                 except Exception as e:
