@@ -44,8 +44,7 @@ if api_key:
                             st.session_state.messages.append({"role":"assistant", "content":  st.image(image_url, caption="Generated Image")})
                           #  image_url = response['image_url'] st.image(image_url, caption="Generated Image") 
                         else: 
-                            st.write(response['text'])
-                        st.session_state.messages.append({"role":"assistant", "content": response})
+                            st.session_state.messages.append({"role":"assistant", "content": response})
                      #   st.write(response)
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
