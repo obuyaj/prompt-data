@@ -42,8 +42,8 @@ if api_key:
                         response = sdf.chat(prompt)
                         st.session_state.messages.append({"role":"user", "content": prompt})
                         
-                        # Display the image if 'image_url' is in response
-                        if 'image_url' in response:
+                        # Check if the response contains an image URL
+                        if isinstance(response, dict) and 'image_url' in response:
                             image_url = response['image_url']
                             st.image(image_url, caption="Generated Image")
                             
