@@ -42,22 +42,25 @@ if api_key:
                         response = sdf.chat(prompt)
                         st.session_state.messages.append({"role":"user", "content": prompt})
                         
-                        # Placeholder for image URL if generated
-                        image_url = '/mount/src/prompt-data/exports/charts/temp_chart.png'  # Use the generated image URL
-                        
-                        st.image(image_url, caption="Generated Image")
-                        
-                        # Create an in-memory file for download
-                        img_data = io.BytesIO()
-                        plt.savefig(img_data, format='png')
-                        img_data.seek(0)
-                        
-                        st.download_button(
-                            label="Download image",
-                            data=img_data,
-                            file_name="generated_image.png",
-                            mime="image/png"
-                        )
+                        # Display the image if 'image_url' is in response
+                        if 'image_url' in response:
+                            image_url = response['image_url']
+                            st.image(image_url, caption="Generated Image")
+                            
+                            # Create an in-memory file for download
+                            img_data = io.BytesIO()
+                            plt.savefig(img_data, format='png')
+                            img_data.seek(0)
+                            
+                            st.download_button(
+                                label="Download image",
+                                data=img_data,
+                                file_name="generated_image.png",
+                                mime="image/png"
+                            )
+                        else:
+                            st.session_state.messages.append({"role":"assistant", "content": response})
+                            st.markdown(response)
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
             else:
