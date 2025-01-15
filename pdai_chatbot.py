@@ -45,13 +45,6 @@ if api_key:
                         response = sdf.chat(prompt)
                         st.session_state.messages.append({"role":"user", "content": prompt})
 
-                        # Check if the response is tabular 
-                        try: 
-                            tabular_data = pd.read_json(response) 
-                            st.write(tabular_data) 
-                        except ValueError: 
-                            st.markdown(response)
-                        
                         # Check if the response contains the specific image URL
                         image_path = '/mount/src/prompt-data/exports/charts/temp_chart.png'
                         
