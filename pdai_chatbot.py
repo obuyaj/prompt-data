@@ -1,6 +1,4 @@
 import streamlit as st, pandas as pd
-import requests
-from PIL import Image
 from pandasai.llm import OpenAI
 from pandasai import Agent, SmartDataframe
 
@@ -47,7 +45,7 @@ if api_key:
                         sdf = SmartDataframe(df, config={"llm": llm, "conversational": True})
                         response = sdf.chat(prompt)
                         st.session_state.messages.append({"role":"user", "content": prompt})
-                        if 'image_url' in response: 
+                        if st.session_state.image_url: 
                             st.session_state.image_url.append({"role":"assistant", "content":  st.image(image_url, caption="Generated Image")})
                           #  image_url = response['image_url'] st.image(image_url, caption="Generated Image") 
                         else: 
