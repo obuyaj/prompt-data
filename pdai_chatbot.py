@@ -1,5 +1,4 @@
 import streamlit as st, pandas as pd
-import seaborn as sns
 from pandasai.llm import OpenAI
 from pandasai import Agent, SmartDataframe
 
