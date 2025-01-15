@@ -3,4 +3,4 @@ pandas
 pandasai
 numpy
 pyyaml
-
+matplotlib
