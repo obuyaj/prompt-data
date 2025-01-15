@@ -3,7 +3,7 @@ import matplotlib as plt
 from pandasai.llm import OpenAI
 from pandasai import Agent, SmartDataframe
 
-plt.use()
+plt.use("Agg")
 
 st.title("Prompt and get insights from you Data")
 
