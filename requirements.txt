@@ -4,3 +4,4 @@ pandasai
 numpy
 pyyaml
 matplotlib
+python3-tk
