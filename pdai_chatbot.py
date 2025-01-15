@@ -14,7 +14,10 @@ uploaded_file = st.file_uploader("Upload a CSV file for analysis", type=['csv'])
 api_key = st.text_input("Your OpenAI API Key:", type="password")
 
 # Create an LLM by instantiating OpenAI object, and passing API token
-llm = OpenAI(api_token=api_key)
+try:
+    llm = OpenAI(api_token=api_key)
+except:
+    st.warning("Enter OpenAI API Key and press Enter to continue")
 
 # Initialize session state for storing the messages
 if "messages" not in st.session_state:
