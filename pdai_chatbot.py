@@ -64,7 +64,7 @@ if api_key:
                             )
                         else:
                             st.session_state.messages.append({"role":"assistant", "content": response})
-                            st.markdown(response)
+                            st.write(response)
                             
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
