@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from pandasai.llm import OpenAI
 from pandasai import Agent, SmartDataframe
 import io
+import re
 
 st.title("Prompt and get insights from your Data")
 
@@ -45,12 +46,14 @@ if api_key:
                         response = sdf.chat(prompt)
                         st.session_state.messages.append({"role":"user", "content": prompt})
 
-                        # Check if the response contains the specific image URL
-                        image_path = '/mount/src/prompt-data/exports/charts/temp_chart.png'
                         
-                        if image_path in response:
+                        # Check if the response contains the specific image path using regex
+                        match = re.search(r"/prompt-data/.*", response)
+                        
+                        if match:
+                            image_path = match.group(0)
                             st.image(image_path, caption="Generated Image")
-                            
+                                                        
                             # Create an in-memory file for download
                             img_data = io.BytesIO()
                             plt.savefig(img_data, format='png')
