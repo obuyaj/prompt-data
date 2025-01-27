@@ -53,7 +53,7 @@ if api_key:
                             if not os.path.exists(image_dir):
                                 os.makedirs(image_dir)
 
-                            # Correctly handle the image path
+                           # Correctly handle the image path
                             image_path_full = os.path.join(".", image_path)
                             
                             # Save the figure to the correct path
