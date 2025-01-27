@@ -47,14 +47,14 @@ if api_key:
                         
                         if match:
                             image_path = match.group(0)
-
+                            
                             # Create the directory if it doesn't exist
                             image_dir = "./prompt-data/exports/charts"
                             if not os.path.exists(image_dir):
                                 os.makedirs(image_dir)
 
-                           # Correctly handle the image path
-                            image_path_full = os.path.join(".", image_path)
+                            # Correctly handle the image path
+                            image_path_full = os.path.join(image_dir, "temp_chart.png")
                             
                             # Save the figure to the correct path
                             plt.savefig(image_path_full)
@@ -64,7 +64,6 @@ if api_key:
                             plt.savefig(img_data, format='png')
                             img_data.seek(0)
                             
-                                                     
                             st.download_button(
                                 label="Download image",
                                 data=img_data,
