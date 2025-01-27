@@ -4,5 +4,4 @@ pandasai
 numpy
 pyyaml
 matplotlib
-re
 os
