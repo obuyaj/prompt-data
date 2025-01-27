@@ -48,7 +48,7 @@ if api_key:
                             image_path = match.group(0)
                             
                             # Correctly handle the image path
-                            image_path_full = f"./{image_path}"
+                            image_path_full = os.path.join(".", image_path)
                             st.image(image_path_full, caption="Generated Image")
                                                         
                             img_data = io.BytesIO()
