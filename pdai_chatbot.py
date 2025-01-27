@@ -14,17 +14,14 @@ uploaded_file = st.file_uploader("Upload a CSV file for analysis", type=['csv'])
 
 api_key = st.text_input("Your OpenAI API Key:", type="password")
 
-# Create an LLM by instantiating OpenAI object, and passing API token
 try:
     llm = OpenAI(api_token=api_key)
 except:
     st.warning("Enter OpenAI API Key and press Enter to continue")
 
-# Initialize session state for storing the messages
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Create PandasAI object, passing the LLM
 if api_key:
     llm = OpenAI(api_token=api_key, model="gpt-3.5-turbo", temperature=0.7)
     
@@ -37,7 +34,6 @@ if api_key:
                               \nWhat could be happening in 'column_name'?
                               """)    
         
-        # Generate output
         if st.button("Generate"):
             if prompt:
                 try:
@@ -46,15 +42,15 @@ if api_key:
                         response = sdf.chat(prompt)
                         st.session_state.messages.append({"role":"user", "content": prompt})
 
-                        
-                        # Check if the response contains the specific image path using regex
                         match = re.search(r"/prompt-data/.*", response)
                         
                         if match:
                             image_path = match.group(0)
-                            st.image(image_path, caption="Generated Image")
+                            
+                            # Correctly handle the image path
+                            image_path_full = f"./{image_path}"
+                            st.image(image_path_full, caption="Generated Image")
                                                         
-                            # Create an in-memory file for download
                             img_data = io.BytesIO()
                             plt.savefig(img_data, format='png')
                             img_data.seek(0)
@@ -77,4 +73,3 @@ if api_key:
             for message in st.session_state.messages:
                 st.chat_message(message["role"])
                 st.markdown(message["content"])
-
