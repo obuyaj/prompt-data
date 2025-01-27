@@ -42,7 +42,7 @@ if api_key:
             if prompt:
                 try:
                     with st.spinner("Generating response, please wait..."):
-                        sdf = Agent(df, config={"llm": llm, "conversational": True})
+                        sdf = SmartDataframe(df, config={"llm": llm, "conversational": True})
                         response = sdf.chat(prompt)
                         st.session_state.messages.append({"role":"user", "content": prompt})
 
